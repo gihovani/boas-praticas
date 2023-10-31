@@ -7,9 +7,8 @@ class CalculateCheckout
     function execute(CalculateCheckoutInput $input): CalculateCheckoutOutput
     {
         $db = new \mysqli('127.0.0.1', 'magento', 'magento', 'test');
-        $response = file_get_contents('https://localhost/boas-praticas/currencies.php', false, stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]));
-        $currencies = json_decode($response, true);
-        $currency = $currencies[$input->currency];
+        $currencyGateway = new CurrencyGateway();
+        $currency = $currencyGateway->getCurrency($input->currency);
         $subtotal = 0;
         $freight = 0;
         foreach ($input->items as $item) {
