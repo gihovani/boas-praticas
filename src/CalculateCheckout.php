@@ -6,20 +6,15 @@ class CalculateCheckout
 {
     function execute(CalculateCheckoutInput $input): CalculateCheckoutOutput
     {
-        $db = new \mysqli('127.0.0.1', 'magento', 'magento', 'test');
         $currencyGateway = new CurrencyGateway();
+        $productRepository = new ProductRepository();
         $currency = $currencyGateway->getCurrency($input->currency);
         $subtotal = 0;
         $freight = 0;
         foreach ($input->items as $item) {
             $productId = $item['productId'];
             $productQuantity = $item['quantity'];
-            $query = 'SELECT * FROM test.product WHERE product_id = ?';
-            $stmt = $db->prepare($query);
-            $stmt->bind_param('i', $productId);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $product = $result->fetch_assoc();
+            $product = $productRepository->getProduct($productId);
             $amount = floatval($product['amount']);
             $itemAmount = $productQuantity * $amount;
             $subtotal += $itemAmount;
@@ -38,7 +33,6 @@ class CalculateCheckout
         }
 
         $total = $subtotal + $taxes + $freight;
-        $db->close();
         return new CalculateCheckoutOutput([
             'subtotal' => round($subtotal * $currency, 2),
             'taxes' => round($taxes * $currency, 2),
