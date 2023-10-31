@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace GihovaniDemetrio\BoasPraticas;
 
@@ -38,16 +38,8 @@ class Quote
 
     private function calculateTaxes()
     {
-        $this->taxes = 0;
-        if ($this->subtotal && $this->country === 'BR') {
-            if ($this->subtotal + $this->freight > 50) {
-                $importTax = ($this->subtotal + $this->freight) * 0.60;
-                $icms = ($this->subtotal + $this->freight + $importTax) * 0.17;
-                $this->taxes = $importTax + $icms + ($this->subtotal * $this->protection);
-            } else {
-                $this->taxes = ($this->subtotal + $this->freight) * 0.17;
-            }
-        }
+        $this->taxes = CalculateTaxFactory::create($this->country)
+            ->calculate($this->subtotal, $this->freight, $this->protection);
     }
 
     private function calculateTotal()

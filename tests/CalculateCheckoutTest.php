@@ -46,6 +46,24 @@ final class CalculateCheckoutTest extends TestCase
         $result = $this->calculateCheckout->execute($input);
         $this->assertEquals($result, $expected);
     }
+    public function testMainWithExceptionCountryNotFound()
+    {
+        $this->expectException(\Error::class);
+        $this->calculateCheckout->execute(new \GihovaniDemetrio\BoasPraticas\CalculateCheckoutInput([
+            'items' => [['productId' => 1, 'quantity' => 1]],
+            'country' => 'AR',
+            'currency' => 'BRL',
+        ]));
+    }
+    public function testMainWithExceptionProductNotFound()
+    {
+        $this->expectException(\Error::class);
+        $this->calculateCheckout->execute(new \GihovaniDemetrio\BoasPraticas\CalculateCheckoutInput([
+            'items' => [['productId' => 3, 'quantity' => 1]],
+            'country' => 'BR',
+            'currency' => 'BRL',
+        ]));
+    }
 
     public function inputDataProvider(): array
     {
