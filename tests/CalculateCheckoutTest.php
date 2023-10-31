@@ -10,8 +10,28 @@ final class CalculateCheckoutTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $currencyGateway = new \GihovaniDemetrio\BoasPraticas\CurrencyGateway();
-        $productRepository = new \GihovaniDemetrio\BoasPraticas\ProductRepository();
+//        $currencyGateway = new \GihovaniDemetrio\BoasPraticas\CurrencyGatewayHttp();
+        $currencyGateway = $this->createMock(\GihovaniDemetrio\BoasPraticas\CurrencyGateway::class);
+        $currencyGateway->method('getCurrency')
+            ->willReturnCallback(function ($currency) {
+                if ($currency === 'BRL') {
+                    return 5.41178;
+                } elseif ($currency === 'EUR') {
+                    return 0.9467;
+                }
+                return 1.0;
+            });
+//        $productRepository = new \GihovaniDemetrio\BoasPraticas\ProductRepositoryDataBase();
+        $productRepository = $this->createMock(\GihovaniDemetrio\BoasPraticas\ProductRepository::class);
+        $productRepository->method('getProduct')
+            ->willReturnCallback(function ($productId) {
+                if ($productId === 1) {
+                    return ['description' => 'Product A', 'amount' => 951.60];
+                } elseif ($productId === 2) {
+                    return ['description' => 'Product B', 'amount' => 59.00];
+                }
+                return null;
+            });
         $this->calculateCheckout = new \GihovaniDemetrio\BoasPraticas\CalculateCheckout($currencyGateway, $productRepository);
     }
 
