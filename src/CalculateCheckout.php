@@ -4,17 +4,24 @@ namespace GihovaniDemetrio\BoasPraticas;
 
 class CalculateCheckout
 {
+    private CurrencyGateway $currencyGateway;
+    private ProductRepository $productRepository;
+
+    public function __construct(CurrencyGateway $currencyGateway, ProductRepository $productRepository)
+    {
+        $this->currencyGateway = $currencyGateway;
+        $this->productRepository = $productRepository;
+    }
+
     function execute(CalculateCheckoutInput $input): CalculateCheckoutOutput
     {
-        $currencyGateway = new CurrencyGateway();
-        $productRepository = new ProductRepository();
-        $currency = $currencyGateway->getCurrency($input->currency);
+        $currency = $this->currencyGateway->getCurrency($input->currency);
         $subtotal = 0;
         $freight = 0;
         foreach ($input->items as $item) {
             $productId = $item['productId'];
             $productQuantity = $item['quantity'];
-            $product = $productRepository->getProduct($productId);
+            $product = $this->productRepository->getProduct($productId);
             $amount = floatval($product['amount']);
             $itemAmount = $productQuantity * $amount;
             $subtotal += $itemAmount;

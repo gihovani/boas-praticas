@@ -10,7 +10,9 @@ final class CalculateCheckoutTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->calculateCheckout = new \GihovaniDemetrio\BoasPraticas\CalculateCheckout();
+        $currencyGateway = new \GihovaniDemetrio\BoasPraticas\CurrencyGateway();
+        $productRepository = new \GihovaniDemetrio\BoasPraticas\ProductRepository();
+        $this->calculateCheckout = new \GihovaniDemetrio\BoasPraticas\CalculateCheckout($currencyGateway, $productRepository);
     }
 
     /**

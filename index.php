@@ -1,7 +1,9 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-$checkout = new \GihovaniDemetrio\BoasPraticas\CalculateCheckout();
+$currencyGateway = new \GihovaniDemetrio\BoasPraticas\CurrencyGateway();
+$productRepository = new \GihovaniDemetrio\BoasPraticas\ProductRepository();
+$checkout = new \GihovaniDemetrio\BoasPraticas\CalculateCheckout($currencyGateway, $productRepository);
 $render = $checkout->execute(new \GihovaniDemetrio\BoasPraticas\CalculateCheckoutInput([
     'items' => [['productId' => 1, 'quantity' => 1], ['productId' => 2, 'quantity' => 2]],
     'country' => 'BR',
