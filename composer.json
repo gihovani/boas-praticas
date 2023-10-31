@@ -1,0 +1,22 @@
+{
+    "name": "gihovani.demetrio/boas-praticas",
+    "autoload": {
+        "psr-4": {
+            "GihovaniDemetrio\\BoasPraticas\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gihovani Filipp Pereira Demetrio",
+            "email": "gihovani@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "ext-mysqli": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
+}

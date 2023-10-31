@@ -24,7 +24,7 @@ function main($input): array
 
     $taxes = 0;
     $protection = 0.055706;
-    if ($input['country'] === 'BR') {
+    if ($subtotal && $input['country'] === 'BR') {
         if ($subtotal + $freight > 50) {
             $importTax = ($subtotal + $freight) * 0.60;
             $icms = ($subtotal + $freight + $importTax) * 0.17;
@@ -47,7 +47,7 @@ function main($input): array
 }
 
 $render = main([
-    'items' => [['productId' => 1, 'quantity' => 1], ['productId' => 2, 'quantity' => 2]],
+    'items' => [],
     'country' => 'BR',
     'currency' => 'BRL',
 ]);
@@ -55,4 +55,4 @@ $render = main([
 // subtotal US $1069,60 - R$5788,44
 // impostos US $992,27 - R$5369,97
 // total US $2061,87 - R$11158,41
-print json_encode($render);
+if ((php_sapi_name() !== 'cli')) print json_encode($render);
