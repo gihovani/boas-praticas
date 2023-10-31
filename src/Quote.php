@@ -32,7 +32,7 @@ class Quote
     {
         $this->subtotal = 0;
         foreach ($this->items as $item) {
-            $this->subtotal += $item->quantity * $item->amount;
+            $this->subtotal += $item->getSubtotal();
         }
     }
 

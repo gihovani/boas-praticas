@@ -23,7 +23,7 @@ class CalculateCheckout
             $productId = $item['productId'];
             $productQuantity = $item['quantity'];
             $product = $this->productRepository->getProduct($productId);
-            $quote->addItem(floatval($product['amount']), $productQuantity);
+            $quote->addItem($product->amount, $productQuantity);
         }
 
         $quote->calculate();

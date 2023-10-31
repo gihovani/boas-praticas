@@ -2,6 +2,7 @@
 
 namespace GihovaniDemetrio\BoasPraticas;
 
-interface ProductRepository {
-    public function getProduct(int $productId): array;
+interface ProductRepository
+{
+    public function getProduct(int $productId): Product;
 }

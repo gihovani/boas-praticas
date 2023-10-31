@@ -15,4 +15,9 @@ class QuoteItem
         $this->amount = $amount;
         $this->quantity = $quantity;
     }
+
+    public function getSubtotal(): float
+    {
+        return $this->amount * $this->quantity;
+    }
 }

@@ -26,9 +26,9 @@ final class CalculateCheckoutTest extends TestCase
         $productRepository->method('getProduct')
             ->willReturnCallback(function ($productId) {
                 if ($productId === 1) {
-                    return ['description' => 'Product A', 'amount' => 951.60];
+                    return new \GihovaniDemetrio\BoasPraticas\Product(1, 'Product A', 951.60);
                 } elseif ($productId === 2) {
-                    return ['description' => 'Product B', 'amount' => 59.00];
+                    return new \GihovaniDemetrio\BoasPraticas\Product(2, 'Product A', 59.00);
                 }
                 return null;
             });

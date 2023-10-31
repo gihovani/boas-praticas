@@ -4,7 +4,7 @@ namespace GihovaniDemetrio\BoasPraticas;
 
 class ProductRepositoryDataBase implements ProductRepository
 {
-    public function getProduct(int $productId): array
+    public function getProduct(int $productId): Product
     {
         $db = new \mysqli('127.0.0.1', 'magento', 'magento', 'test');
         $query = 'SELECT * FROM test.product WHERE product_id = ?';
@@ -14,6 +14,6 @@ class ProductRepositoryDataBase implements ProductRepository
         $result = $stmt->get_result();
         $product = $result->fetch_assoc();
         $db->close();
-        return $product;
+        return new Product($product['product_id'], $product['description'], floatval($product['amount']));
     }
 }
